@@ -1,4 +1,4 @@
-### Run app
+## Run app
 
 1. Copy .env.example to .env and set vars  
 2. Run:  
@@ -9,15 +9,15 @@
 
     `poetry run hypercorn src/main:app -b 0.0.0.0:8000`
 
-### Run tests
+## Run tests
 
 `poetry run pytest tests`
 
-### Generate migration
+## Generate migration
 
 `alembic revision --autogenerate -m ""`
 
-### pyproject.toml sort:
+## pyproject.toml sort:
 
 `poetry run toml-sort pyproject.toml --all --in-place`
 
