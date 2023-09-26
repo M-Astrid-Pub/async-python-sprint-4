@@ -40,6 +40,7 @@ pytest-asyncio = "^0.21.1"
 python = "^3.10"
 sqlalchemy-utils = "^0.41.1"
 toml-sort = "^0.23.1"
+inject = "^5.0.0"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

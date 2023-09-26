@@ -1,5 +1,7 @@
 from pydantic_settings import BaseSettings
 
+from models.enums import Envs
+
 
 class Settings(BaseSettings):
     PG_USER: str
@@ -15,11 +17,12 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
 
-    def get_pg_url(self):
-        return f"postgresql+asyncpg://{self.PG_USER}:{self.PG_PASS}@{self.PG_HOST}:{self.PG_PORT}/{self.PG_DB}"
-
-    def get_test_pg_url(self):
-        return f"postgresql+asyncpg://{self.PG_USER}:{self.PG_PASS}@{self.PG_HOST}:{self.PG_PORT}/{self.PG_TEST_DB}"
+    def get_pg_url(self, env: Envs = Envs.PROD):
+        if env == Envs.PROD:
+            db_name = self.PG_DB
+        else:
+            db_name = self.PG_TEST_DB
+        return f"postgresql+asyncpg://{self.PG_USER}:{self.PG_PASS}@{self.PG_HOST}:{self.PG_PORT}/{db_name}"
 
 
 app_settings = Settings()

@@ -2,7 +2,6 @@ import asyncio
 from typing import AsyncGenerator
 
 import httpx
-import inject
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
@@ -11,6 +10,7 @@ from infrastructure.repositories.link_repository import LinkRepository
 from main import app
 from models import Link
 from models.base import metadata
+from models.enums import Envs
 from models.schemas import LinkCreate, LinkUpdate
 from routers.link_router import get_service
 from services.link_service import LinkService
@@ -29,7 +29,7 @@ async def client() -> AsyncGenerator[httpx.AsyncClient, None]:
 
 
 engine_test = create_async_engine(
-    app_settings.get_test_pg_url(), echo=True, future=True
+    app_settings.get_pg_url(env=Envs.TEST), echo=True, future=True
 )
 async_session = sessionmaker(
     engine_test, class_=AsyncSession, expire_on_commit=False

@@ -4,3 +4,4 @@
 /.mypy_cache/
 /.github/
 /src/.pytest_cache/
+/.env

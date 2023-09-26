@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from exceptions import ObjectNotFoundException
 from models.base import Base
 from typing import Any, Dict, Generic, List, Optional, Type, Union
-from sqlalchemy import select, over, func
+from sqlalchemy import select, over, func, update, delete
 from fastapi.encoders import jsonable_encoder
 
 
@@ -76,20 +76,20 @@ class RepositoryDB(
         self, *, obj_id: int, obj_in: Union[UpdateSchemaType, Dict[str, Any]]
     ) -> ModelType:
         obj_in_data = jsonable_encoder(obj_in)
+        stmt = update(self._model).where(self._model.id == obj_id).values(**obj_in_data).returning(
+            self._model
+        )
         async with self._session_maker() as db:
-            if not (db_obj := await db.get(self._model, obj_id)):
+            if not (db_obj := (await db.execute(statement=stmt)).one_or_none()):
                 raise ObjectNotFoundException
-            for k, v in obj_in_data.items():
-                setattr(db_obj, k, v)
             await db.commit()
-            await db.refresh(db_obj)
         return db_obj
 
     async def delete(self, *, obj_id: int) -> None:
+        stmt = delete(self._model).where(self._model.id == obj_id).returning(self._model.id)
         async with self._session_maker() as db:
-            if not (db_obj := await db.get(self._model, obj_id)):
+            if not (db_obj := (await db.execute(statement=stmt)).one_or_none()):
                 raise ObjectNotFoundException
-            await db.delete(db_obj)
             await db.commit()
 
     async def create_multi(self, *, obj_list: list[CreateSchemaType]) -> None:

@@ -415,6 +415,17 @@ files = [
 ]
 
 [[package]]
+name = "inject"
+version = "5.0.0"
+description = "Python dependency injection framework."
+optional = false
+python-versions = "*"
+files = [
+    {file = "inject-5.0.0-py2.py3-none-any.whl", hash = "sha256:f92188c9ca2f5b161426ad8060f6eb1861054acd507dfac965d8d94a3f026e1f"},
+    {file = "inject-5.0.0.tar.gz", hash = "sha256:017e2e21707c35d0f486db942dcc5500f4fe0e64e80d2af3c689d9d63838a99b"},
+]
+
+[[package]]
 name = "mako"
 version = "1.2.4"
 description = "A super-fast templating language that borrows the best ideas from the existing templating languages."
@@ -1103,4 +1114,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "c5cbd0ee1215e36f59f293789eaf46d6d879a50e0a8c1daf12f3875d015e5ec6"
+content-hash = "e08ad6cad17b877f54d50f10c8bb9b34c48b886877a14c9f419db2bc8c1365cf"
